@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SIU Guaraní — Panel Académico</title>
+
+<style>
+/* ----- reset & base ----- */
+*{box-sizing:border-box}
+body{margin:0;font-family: Arial, Helvetica, sans-serif;background:#f2f4f6;color:#222;}
+
+/* ----- header / topbar ----- */
+.topbar {
+  width:100%;
+  background:#ffffff;
+  border-bottom:1px solid #e1e4e8;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:8px 12px;
+  gap:12px;
+  position:relative;
+  z-index:1000;
+}
+
+/* left area: logo + home */
+.topbar-left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+/* TU LOGO REAL (PNG) */
+.logo-img{
+  width:40px;
+  height:40px;
+  object-fit:contain;
+  border-radius:4px;
+}
+
+/* home button */
+.home-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:40px;
+  height:40px;
+  border-radius:6px;
+  background:#f7fbff;
+  border:1px solid #dfe7ea;
+  cursor:pointer;
+  color:#0b5d7a;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.03);
+}
+
+/* right actions */
+.topbar-actions{display:flex;align-items:center;gap:8px}
+.topbar-actions button{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:44px;height:40px;border-radius:6px;
+  border:1px solid #e6e9ec;background:#fafafa;cursor:pointer;
+  box-shadow:0 1px 0 rgba(0,0,0,0.02);
+}
+.topbar-actions button .icon{width:22px;height:22px}
+
+/* numeric badge */
+.mail-count{
+  color:#1690c7;
+  font-weight:700;
+  margin-left:6px;
+  font-size:14px;
+}
+
+
+/* ================================================= */
+/* ----- MENÚ DE LA PERSONITA - AGREGADO ----- */
+/* ================================================= */
+
+.user-container{
+  position:relative;
+}
+
+.user-menu{
+  display:none;
+  position:absolute;
+  top:48px;
+  right:0;
+  width:300px;
+  background:#ffffff;
+  border:1px solid #d5d5d5;
+  box-shadow:0 2px 8px rgba(0,0,0,0.20);
+  z-index:2000;
+}
+
+.user-menu.active{
+  display:block;
+}
+
+.user-name{
+  padding:22px 24px;
+  font-size:20px;
+  font-weight:bold;
+  color:#333;
+  border-bottom:1px solid #e5e5e5;
+}
+
+.user-career{
+  padding:20px 24px;
+  font-size:18px;
+  color:#555;
+  border-bottom:1px solid #e5e5e5;
+}
+
+.user-option{
+  padding:18px 24px;
+  font-size:18px;
+  color:#444;
+  border-bottom:1px solid #e5e5e5;
+  cursor:pointer;
+}
+
+.user-option:hover{
+  background:#f2f2f2;
+}
+
+
+/* ----- main menu ----- */
+.menu {
+  width:100%;
+  background:#ffffff;
+  border-bottom:1px solid #cfcfcf;
+  display:none;
+  flex-direction:column;
+  padding-top:10px;
+  padding-bottom:10px;
+  z-index:50;
+}
+
+.menu-item {
+  padding:14px 18px;
+  font-size:17px;
+  color:#444;
+  border-bottom:1px solid #e5e5e5;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.menu-item:hover{background:#f2f2f2}
+
+.submenu{
+  display:none;
+  flex-direction:column;
+  background:#fafafa;
+  border-left:3px solid #d0d0d0;
+}
+.submenu-item{
+  padding:12px 30px;
+  font-size:15px;
+  border-bottom:1px solid #e5e5e5;
+  color:#555;
+  cursor:pointer;
+}
+.submenu-item:hover{background:#efefef}
+.submenu-arrow{margin-left:auto;font-size:15px;opacity:.8}
+
+/* ----- layout ----- */
+.container{
+  width:92%;
+  max-width:750px;
+  margin:18px auto;
+}
+.card{background:#fff;border:1px solid #d0d0d0;padding:18px;border-radius:4px;font-size:14px;line-height:1.45}
+
+/* celeste box */
+.header-box{
+  background:#eef6fb;
+  border:1px solid #dbe8ef;
+  padding:10px 12px;
+  border-radius:4px;
+  margin-bottom:15px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+}
+.header-box-title{
+  color:#1686b6;
+  font-size:14px;
+  margin-bottom:6px;
+  font-weight:700;
+}
+.red{
+  color:#cc0000;
+  font-weight:700;
+  margin-bottom:10px;
+  font-size:14px;
+}
+.title{
+  font-weight:700;
+  color:#666;
+  margin-top:12px;
+  margin-bottom:6px;
+  font-size:15px;
+}
+ul{padding-left:20px;margin-top:5px;color:#222}
+ul li{margin-bottom:6px}
+
+select{
+  width:100%;
+  padding:8px;
+  border-radius:4px;
+  border:1px solid #d6dae0;
+  background:#fff;
+}
+
+.exam-msg{
+  background:#eef5fb;
+  border-top:1px solid #c9dae7;
+  padding:10px 12px;
+  color:#0b6fb8;
+  font-size:14px;
+  margin-top:6px;
+}
+
+@media (max-width:980px){
+  .container{width:96%}
+  .menu{display:flex}
+}
+</style>
+</head>
+
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+
+  <div class="topbar-left">
+
+    <!-- TU LOGO REAL -->
+    <img src="logo-uns.png" alt="UNS" class="logo-img">
+
+    <!-- home button -->
+    <button class="home-btn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="#0b5d7a">
+        <path d="M12 3l9 7v11H6v-7H9v7H4V10z"/>
+      </svg>
+    </button>
+
+  </div>
+
+  <div class="topbar-actions">
+
+    <!-- ================================================= -->
+    <!-- BOTÓN PERSONITA + MENÚ DE USUARIO - AGREGADO -->
+    <!-- ================================================= -->
+
+    <div class="user-container">
+
+      <button id="userBtn">
+        <svg class="icon" viewBox="0 0 24 24" fill="#000">
+          <path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"/>
+        </svg>
+      </button>
+
+      <!-- MENÚ QUE APARECE AL TOCAR LA PERSONITA -->
+
+      <div id="userMenu" class="user-menu">
+
+        <div class="user-name">
+          JUAN OTERMI
+        </div>
+
+        <div class="user-career">
+          (IC) INGENIERÍA CIVIL
+        </div>
+
+        <div class="user-option">
+          Configuración
+        </div>
+
+        <div class="user-option" onclick="window.location.href='index.html'">
+          Cerrar sesión
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- BOTÓN DE MAIL - ORIGINAL -->
+    <button>
+      <svg class="icon" viewBox="0 0 24 24" fill="#000">
+        <path d="M12 13 2 6h20l-10 7zm0 2L2 8v10h20V8z"/>
+      </svg>
+      <span class="mail-count">0</span>
+    </button>
+
+    <!-- BOTÓN DEL MENÚ - ORIGINAL -->
+    <button id="menuBtn">
+      <svg class="icon" viewBox="0 0 24 24" fill="#000">
+        <path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/>
+      </svg>
+    </button>
+
+  </div>
+</div>
+
+<!-- MENU -->
+<nav id="menu" class="menu" aria-hidden="true">
+
+  <div class="menu-item" onclick="toggleSubmenu('subCursadas')">
+    Cursadas <span class="submenu-arrow">▾</span>
+  </div>
+
+  <div id="subCursadas" class="submenu">
+
+    <div class="submenu-item">Inscripción</div>
+
+    <!-- ✅ SOLO EDITÉ ESTA LÍNEA -->
+    <div class="submenu-item" onclick="location.href='cursadas.html'">Seguimiento</div>
+
+  </div>
+
+  <div class="menu-item" onclick="toggleSubmenu('subExamenes')">
+    Exámenes <span class="submenu-arrow">▾</span>
+  </div>
+  <div id="subExamenes" class="submenu">
+    <div class="submenu-item">Inscripción a Exámenes</div>
+    <div class="submenu-item">Mis Mesas</div>
+    <div class="submenu-item">Historial</div>
+  </div>
+
+  <div class="menu-item" onclick="toggleSubmenu('subCertificados')">
+    Certificaciones <span class="submenu-arrow">▾</span>
+  </div>
+  <div id="subCertificados" class="submenu">
+    <div class="submenu-item" onclick="window.open('certificado_otermi.pdf','_blank')">
+      Solicitud de Certificados
+    </div>
+    <div class="submenu-item">Consulta / Anulación</div>
+  </div>
+
+  <div class="menu-item" onclick="toggleSubmenu('subIngreso')">Ingreso <span class="submenu-arrow">▾</span></div>
+  <div id="subIngreso" class="submenu">
+    <div class="submenu-item">Requisitos</div>
+    <div class="submenu-item">Documentación</div>
+  </div>
+
+  <div class="menu-item" onclick="toggleSubmenu('subMatricula')">Matrícula <span class="submenu-arrow">▾</span></div>
+  <div id="subMatricula" class="submenu">
+    <div class="submenu-item">Generar Matrícula</div>
+    <div class="submenu-item">Pagos / Aranceles</div>
+  </div>
+
+  <div class="menu-item" onclick="toggleSubmenu('subConsultas')">Consultas <span class="submenu-arrow">▾</span></div>
+  <div id="subConsultas" class="submenu">
+    <div class="submenu-item">Consultar Alumno</div>
+    <div class="submenu-item">Estado Académico</div>
+  </div>
+
+  <div class="menu-item">Servicios</div>
+  <div class="menu-item">Encuestas</div>
+  <div class="menu-item">Egresados</div>
+  <div class="menu-item">Moodle</div>
+
+</nav>
+
+<!-- CONTENIDO -->
+<main class="container">
+  <h2 style="color:#1686b6;">Bienvenido</h2>
+
+  <div class="card">
+    <div class="header-box">
+      <div class="header-box-title">Calendario Académico</div>
+      <div class="red">Actualizá tu MAIL</div>
+
+      <div class="title">Inscripciones</div>
+      <ul>
+        <li>101 - Matemáticas</li>
+        <li>102 - Física</li>
+        <li>103 - Construcción</li>
+        <li>104 - Estructuras</li>
+        <li>105 - Geotecnia</li>
+        <li>106 - Hidráulica</li>
+        <li>107 - Transporte</li>
+        <li>108 - Gestión de Proyectos</li>
+      </ul>
+
+      <div class="title">Cursadas</div>
+      <select><option>2025 - Segundo Cuatr.</option></select>
+
+      <p><b>Inicio:</b> 18/08/2025<br>
+      <b>Fin:</b> 05/12/2025<br>
+      <b>Inscripciones:</b> 04/08 - 06/09<br>
+      <b>Correlativas:</b> hasta 19/09</p>
+
+      <div class="title">Exámenes</div>
+      <select><option>Turno 2025-12</option></select>
+
+      <p><b>Inicio:</b> 01/12/2025<br>
+      <b>Fin:</b> 30/12/2025</p>
+
+      <div class="title">Inscripciones</div>
+      <div class="exam-msg">
+        No tenés inscripciones a exámenes vigentes para el turno seleccionado.
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<script>
+// menu toggle
+document.getElementById("menuBtn").addEventListener("click", ()=>{
+  const menu = document.getElementById("menu");
+  const isOpen = menu.style.display === "flex";
+  menu.style.display = isOpen ? "none" : "flex";
+});
+
+// submenu toggle
+function toggleSubmenu(id){
+  const s=document.getElementById(id);
+  s.style.display = s.style.display==="flex" ? "none" : "flex";
+}
+
+
+// =================================================
+// MENÚ DE LA PERSONITA - AGREGADO
+// =================================================
+
+// Abrir y cerrar el menú al tocar la personita
+document.getElementById("userBtn").addEventListener("click", function(event){
+
+  // Evita que el clic se propague al documento
+  event.stopPropagation();
+
+  // Busca el menú de usuario
+  const userMenu = document.getElementById("userMenu");
+
+  // Abre o cierra el menú
+  userMenu.classList.toggle("active");
+
+});
+
+
+// Cerrar el menú si se toca en cualquier otra parte
+document.addEventListener("click", function(){
+
+  document.getElementById("userMenu").classList.remove("active");
+
+});
+
+
+// Evita que al tocar dentro del menú se cierre
+document.getElementById("userMenu").addEventListener("click", function(event){
+
+  event.stopPropagation();
+
+});
+
+</script>
+
+</body>
+</html>
