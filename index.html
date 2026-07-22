@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>SIU Guaraní</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+/* --- Reset y básicos --- */
+* { box-sizing: border-box; }
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/* --- Barra superior con logo y menú --- */
+.topbar {
+    background: #ffffff;
+    padding: 10px 14px;
+    font-size: 20px;
+    color: #555;
+    border-bottom: 1px solid #dcdcdc;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo-uns { height: 34px; }
+.menu-icon { font-size: 26px; cursor: pointer; padding: 6px 8px; color: #444; }
+
+/* --- Caja del login más chica y pegada a la izquierda --- */
+.login-box {
+    width: 78%;                /* MÁS ANGOSTA como en tu captura */
+    max-width: 340px;          /* Ajuste perfecto */
+    background: #ffffff;
+    padding: 22px 20px;
+    border-radius: 8px;
+    margin: 22px 0 0 12px;     /* PEGADO A LA IZQUIERDA */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+/* Título pequeño como en SIU */
+.login-title {
+    font-size: 22px;
+    text-align: left;
+    color: #666;
+    margin-bottom: 14px;
+    font-weight: 600;
+}
+
+/* Labels */
+label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+/* Inputs MÁS CHICOS y al costado */
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    height: 38px;              /* MÁS BAJITOS */
+    padding: 8px 10px;
+    font-size: 14px;
+    border: 1px solid #cfcfcf;
+    border-radius: 6px;
+    transition: 0.15s;
+}
+
+input:focus {
+    outline: none;
+    border-color: #7fc0ee;
+    box-shadow: 0 0 4px rgba(35,137,221,0.20);
+}
+
+/* Botón estilo SIU más finito */
+.btn-ingresar {
+    width: 100%;
+    height: 42px;
+    margin-top: 10px;
+    background: linear-gradient(#19aee7, #0d90bd);
+    border-radius: 8px;
+    border: none;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-ingresar:hover {
+    background: linear-gradient(#17a0d0, #0b82a8);
+}
+
+/* Link */
+.forgot {
+    display: block;
+    margin-top: 10px;
+    text-align: center;
+    color: #0b94c6;
+    font-size: 14px;
+}
+
+/* Sección inferior */
+.section-title {
+    font-size: 24px;
+    margin-top: 18px;
+    font-weight: bold;
+    color: #555;
+    padding-left: 12px;
+}
+
+.text-block {
+    padding: 0 14px 30px 14px;
+    color: #333;
+    font-size: 15px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Barra superior -->
+<div class="topbar">
+    <div style="display:flex; align-items:center; gap: 12px;">
+        <img src="logo-uns.png" class="logo-uns" alt="UNS">
+        
+    </div>
+    <div class="menu-icon">&#9776;</div>
+</div>
+
+<!-- Caja login más chica y pegada al lado -->
+<div class="login-box">
+    <div class="login-title">Ingresá tus datos</div>
+
+    <label for="user">Usuario</label>
+    <input type="text" id="user">
+
+    <label for="pass">Contraseña</label>
+    <input type="password" id="pass">
+
+    <button class="btn-ingresar" onclick="login()">Ingresar</button>
+
+    <a class="forgot" href="#">¿Olvidaste tu usuario o contraseña?</a>
+</div>
+
+<!-- Texto abajo -->
+<div class="section-title">SIU Guaraní</div>
+
+<div class="text-block">
+    <p>Con este sistema podés entre otras opciones:</p>
+
+    <strong>Si sos alumno:</strong>
+    <ul>
+        <li>Inscribirte a cursados y exámenes.</li>
+        <li>Consultar el plan de estudios de tu carrera y tu historia académica.</li>
+        <li>Solicitar certificaciones.</li>
+    </ul>
+
+    <strong>Si sos docente:</strong>
+    <ul>
+        <li>Consultar tus comisiones y mesas de examen y alumnos inscriptos.</li>
+        <li>Cargar Actas Cursado y Examen.</li>
+        <li>Obtener listados en pdf y xls.</li>
+    </ul>
+
+    <p><strong>Ingresá tu usuario y contraseña para iniciar sesión en el sistema.</strong></p>
+</div>
+
+<script>
+function login() {
+    let u = document.getElementById("user").value;
+    let p = document.getElementById("pass").value;
+
+    if (u === "0804010" && p === "0804010") {
+        window.location.href = "panel.html";
+    } else {
+        alert("Usuario o contraseña incorrectos");
+    }
+}
+</script>
+
+</body>
+</html>
